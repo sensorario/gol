@@ -3,8 +3,6 @@ package gol
 import (
 	"log"
 	"os"
-
-	"golang.org/x/sys/unix"
 )
 
 type Logger struct {
@@ -13,8 +11,8 @@ type Logger struct {
 }
 
 func (l *Logger) Info(message string) {
-	level := "info"
 	app := l.Application
+	level := "info"
 	logfile := l.LogFile
 
 	f, err := os.OpenFile(
@@ -31,9 +29,4 @@ func (l *Logger) Info(message string) {
 
 	log.SetOutput(f)
 	log.Print("[" + level + "] - " + message + "")
-
-	path := "/var/log/" + app
-	if unix.Access(path, unix.W_OK) != nil {
-		log.Print("[warning] - cant write into `" + path + "` log")
-	}
 }
