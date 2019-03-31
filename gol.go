@@ -5,11 +5,18 @@ import (
 	"os"
 )
 
-func Info(message string) {
+type Conf struct {
+	Application string
+	LogFile     string
+}
+
+func Info(message string, conf Conf) {
 	level := "info"
+	app := conf.Application
+	logfile := conf.LogFile
 
 	f, err := os.OpenFile(
-		"/var/log/fussy/fussy.log",
+		"/var/log/"+app+"/"+logfile+".log",
 		os.O_WRONLY|os.O_CREATE|os.O_APPEND,
 		0644,
 	)
