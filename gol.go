@@ -8,14 +8,23 @@ import (
 type Logger struct {
 	Application string
 	LogFile     string
+	CustomLog   bool
+}
+
+func NewLogger(app string) Logger {
+	return Logger{
+		Application: app,
+		LogFile:     "logger",
+	}
 }
 
 func (l *Logger) log(level string, message string) {
 	app := l.Application
 	logfile := l.LogFile
 
+	loggerPath := "/var/log/" + app + "/" + logfile + ".log"
 	f, err := os.OpenFile(
-		"/var/log/"+app+"/"+logfile+".log",
+		loggerPath,
 		os.O_WRONLY|os.O_CREATE|os.O_APPEND,
 		0644,
 	)
