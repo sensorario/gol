@@ -10,9 +10,8 @@ type Logger struct {
 	LogFile     string
 }
 
-func (l *Logger) Info(message string) {
+func (l *Logger) log(level string, message string) {
 	app := l.Application
-	level := "info"
 	logfile := l.LogFile
 
 	f, err := os.OpenFile(
@@ -29,4 +28,12 @@ func (l *Logger) Info(message string) {
 
 	log.SetOutput(f)
 	log.Print("[" + level + "] - " + message + "")
+}
+
+func (l *Logger) Info(message string) {
+	l.log("info", message)
+}
+
+func (l *Logger) Error(message string) {
+	l.log("error", message)
 }
