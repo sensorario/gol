@@ -11,18 +11,32 @@ type Logger struct {
 	CustomLog   bool
 }
 
+func (l *Logger) Path() string {
+	if l.CustomLog == true {
+		return l.Application + "/" + l.LogFile + ".log"
+	}
+
+	return "/var/log/" + l.Application + "/" + l.LogFile + ".log"
+}
+
 func NewLogger(app string) Logger {
 	return Logger{
 		Application: app,
 		LogFile:     "logger",
+		CustomLog:   false,
+	}
+}
+
+func NewCustomLogger(app string) Logger {
+	return Logger{
+		Application: app,
+		LogFile:     "logger",
+		CustomLog:   true,
 	}
 }
 
 func (l *Logger) log(level string, message string) {
-	app := l.Application
-	logfile := l.LogFile
-
-	loggerPath := "/var/log/" + app + "/" + logfile + ".log"
+	loggerPath := l.Path()
 	f, err := os.OpenFile(
 		loggerPath,
 		os.O_WRONLY|os.O_CREATE|os.O_APPEND,
