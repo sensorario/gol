@@ -57,6 +57,10 @@ func (l *Logger) Info(message string) {
 	l.log("info", message)
 }
 
+func (l *Logger) Warning(message string) {
+	l.log("warning", message)
+}
+
 func (l *Logger) Error(message string) {
 	l.log("error", message)
 }
